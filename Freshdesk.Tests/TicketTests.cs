@@ -27,7 +27,7 @@ namespace Freshdesk.Tests
     [TestFixture]
     public class TicketTests
     {
-        Freshdesk.FreshdeskService freshdeskService = new Freshdesk.FreshdeskService(Settings.FreshdeskApiKey, Settings.FreshdeskUri);
+        /*Freshdesk.FreshdeskService freshdeskService = new Freshdesk.FreshdeskService(Settings.FreshdeskApiKey, Settings.FreshdeskUri);
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Freshdesk"), Test]
         public void FreshdeskCreateTicket()
@@ -47,9 +47,9 @@ namespace Freshdesk.Tests
             Assert.IsNotNull(ticketResponse);
             Assert.IsNotNull(ticketResponse.TicketInfo);
 
-        }
+        }*/
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Freshdesk"), Test]
+        /*[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Freshdesk"), Test]
         public void FreshdeskCreateTicketWithAttachment()
         {
             // create Support Ticket for a followup demonstration with Support software integration
@@ -78,6 +78,6 @@ namespace Freshdesk.Tests
             });            
             Assert.IsNotNull(ticketResponse);
             Assert.IsNotNull(ticketResponse.TicketInfo);
-        }
+        }*/
     }
 }

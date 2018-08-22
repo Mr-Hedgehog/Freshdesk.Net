@@ -24,7 +24,7 @@ namespace Freshdesk.Tests
     [TestFixture]
     public class UserTests
     {
-        Freshdesk.FreshdeskService freshdeskService = new Freshdesk.FreshdeskService(Settings.FreshdeskApiKey, Settings.FreshdeskUri);
+        /*Freshdesk.FreshdeskService freshdeskService = new Freshdesk.FreshdeskService(Settings.FreshdeskApiKey, Settings.FreshdeskUri);
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Freshdesk"), Test]
         public void FreshdeskCreateContact()
@@ -40,7 +40,7 @@ namespace Freshdesk.Tests
             Assert.IsNotNull(userResponse);
             Assert.IsNotNull(userResponse.User);
 
-        }
+        }*/
 
     }
 }

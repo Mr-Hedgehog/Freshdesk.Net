@@ -24,7 +24,7 @@ namespace Freshdesk.Tests
     [TestFixture]
     public class CustomerTests
     {
-        Freshdesk.FreshdeskService freshdeskService = new Freshdesk.FreshdeskService(Settings.FreshdeskApiKey, Settings.FreshdeskUri);
+        /*Freshdesk.FreshdeskService freshdeskService = new Freshdesk.FreshdeskService(Settings.FreshdeskApiKey, Settings.FreshdeskUri);
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Freshdesk")]
         [Test]
@@ -45,6 +45,6 @@ namespace Freshdesk.Tests
             {
                 Assert.Fail("Invalid customer id.");
             }
-        }
+        }*/
     }
 }
