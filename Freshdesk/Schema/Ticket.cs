@@ -40,7 +40,7 @@ namespace Freshdesk.Schema
         /// Technically this property is not read-only if you have the Estate plan, however I have no way of testing the
         /// Multiple Companies feature.
         /// </remarks>
-        [JsonProperty("company_id", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("company_id", DefaultValueHandling = DefaultValueHandling.Ignore,  NullValueHandling = NullValueHandling.Ignore)]
         public long CompanyId { get; private set; }
         
 
@@ -61,27 +61,28 @@ namespace Freshdesk.Schema
         /// <summary>
         /// Gets this ticket's creation timestamp.
         /// </summary>
-        [JsonProperty("created_at")]
+        [JsonProperty("created_at", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public DateTime CreatedAt { get; private set; }
 
 
         /// <summary>
         /// Gets the key-value pairs containing the names and values of custom fields.
         /// </summary>
-        [JsonProperty("custom_fields")]
+        [JsonProperty("custom_fields", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore)]
         public Dictionary<string, object> CustomFields { get; private set; }
-        
+
 
         /// <summary>
         /// Gets the content of the ticket in plain-text.
         /// </summary>
+        [JsonIgnore]
         [JsonProperty("description_text")]
         public string Description { get; private set; }
 
         /// <summary>
         /// Gets or sets the timestamp that denotes when the ticket is due to be resolved.
         /// </summary>
-        [JsonProperty("due_by")]
+        [JsonProperty("due_by", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public DateTime DueTime { get; set; }
 
         /// <summary>
@@ -96,7 +97,7 @@ namespace Freshdesk.Schema
         /// <summary>
         /// Gets or sets the ID of email config which is used for this ticket.
         /// </summary>
-        [JsonProperty("email_config_id", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("email_config_id", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore)]
         public long EmailConfigId { get; set; }
 
         /// <summary>
@@ -111,13 +112,13 @@ namespace Freshdesk.Schema
         /// <summary>
         /// Gets or sets the timestamp that denotes when the first response is due.
         /// </summary>
-        [JsonProperty("fr_due_by")]
+        [JsonProperty("fr_due_by", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public DateTime FirstResponseDueTime { get; set; }
 
         /// <summary>
         /// Gets whether the ticket has been escalated as the result of first response time being breached.
         /// </summary>
-        [JsonProperty("fr_escalated")]
+        [JsonProperty("fr_escalated", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool FirstResponseEscalated { get; private set; }
 
         /// <summary>
@@ -129,7 +130,7 @@ namespace Freshdesk.Schema
         /// <summary>
         /// Gets or sets the ID of the group to which the ticket has been assigned.
         /// </summary>
-        [JsonProperty("group_id", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("group_id", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore)]
         public long GroupId { get; set; }
 
         /// <summary>
@@ -141,7 +142,7 @@ namespace Freshdesk.Schema
         /// <summary>
         /// Gets the unique ID of the ticket.
         /// </summary>
-        [JsonProperty("id")]
+        [JsonProperty("id", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public long Id { get; private set; }
 
         /// <summary>
@@ -150,13 +151,13 @@ namespace Freshdesk.Schema
         /// <remarks>
         /// Deleted tickets will not be displayed in any views except the "deleted" filter.
         /// </remarks>
-        [JsonProperty("deleted")]
+        [JsonProperty("deleted", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool IsDeleted { get; private set; }
-        
+
         /// <summary>
         /// Gets whether the ticket has been escalated for any reason.
         /// </summary>
-        [JsonProperty("is_escalated")]
+        [JsonProperty("is_escalated", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool IsEscalated { get; private set; }
 
 
@@ -173,14 +174,14 @@ namespace Freshdesk.Schema
         /// <summary>
         /// Gets or sets the priority of the ticket.
         /// </summary>
-        [JsonProperty("priority")]
+        [JsonProperty("priority", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public TicketPriority Priority { get; set; }
 
 
         /// <summary>
         /// Gets or sets the ID of the product to which the ticket is associated.
         /// </summary>
-        [JsonProperty("product_id", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("product_id", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore)]
         public long ProductId { get; set; }
 
 
@@ -194,7 +195,7 @@ namespace Freshdesk.Schema
         /// <summary>
         /// Gets or sets the user ID of the requester.
         /// </summary>
-        [JsonProperty("requester_id")]
+        [JsonProperty("requester_id", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public long RequesterId { get; set; }
 
 
@@ -208,21 +209,21 @@ namespace Freshdesk.Schema
         /// <summary>
         /// Gets or sets the channel through which the ticket was created.
         /// </summary>
-        [JsonProperty("source")]
+        [JsonProperty("source", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public TicketSource Source { get; set; }
 
 
         /// <summary>
         /// Gets whether the ticket has been marked as spam.
         /// </summary>
-        [JsonProperty("spam")]
+        [JsonProperty("spam", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool Spam { get; private set; }
 
 
         /// <summary>
         /// Gets or sets the status of the ticket.
         /// </summary>
-        [JsonProperty("status")]
+        [JsonProperty("status", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Status { get; set; }
 
 
@@ -236,7 +237,7 @@ namespace Freshdesk.Schema
         /// <summary>
         /// Gets or sets the tags that have been associated with the ticket.
         /// </summary>
-        [JsonProperty("tags")]
+        [JsonProperty("tags", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore)]
         public string[] Tags { get; set; }
 
 
@@ -260,7 +261,7 @@ namespace Freshdesk.Schema
         /// <summary>
         /// Gets the ticket's last updated timestamp.
         /// </summary>
-        [JsonProperty("updated_at")]
+        [JsonProperty("updated_at", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public DateTime UpdatedAt { get; private set; }
 
         
@@ -272,14 +273,17 @@ namespace Freshdesk.Schema
         /// <summary>
         /// The conversations of this ticket retrieved from JSON.
         /// </summary>
-        [JsonProperty("conversations")]
+        [JsonProperty("conversations", DefaultValueHandling = DefaultValueHandling.Ignore)]
         private Conversation[] JsonConversations { get; set; }
 
 
         /// <summary>
         /// Initializes a new instance of the Ticket class.
         /// </summary>
-        public Ticket() { }
+        public Ticket() {
+            Status = 2;
+            Priority = TicketPriority.Low;
+        }
 
         /// <summary>
         /// Initializes a new instance of the Ticket class from JSON source data.
@@ -306,6 +310,17 @@ namespace Freshdesk.Schema
             }
 
             FreshdeskConnection = fdConn;
+        }
+
+        /// <summary>
+        /// Return ticket view link.
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        public string GetViewLink(FreshdeskConnection connection = null)
+        {
+            var baseUri = connection == null ? FreshdeskConnection.ConnectionUri : connection.ConnectionUri;
+            return FreshHttpsHelper.UriForPath(baseUri, $"helpdesk/tickets/{Id}").AbsoluteUri;
         }
 
 

@@ -22,6 +22,17 @@ namespace Freshdesk
 {
     public class Attachment
     {
+        public Attachment()
+        {
+
+        }
+
+        public Attachment(Stream content, string filename)
+        {
+            this.Content = content;
+            this.FileName = filename;
+        }
+
         public Stream Content { get; set; }
         public string FileName { get; set; }
     }

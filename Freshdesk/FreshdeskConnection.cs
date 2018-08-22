@@ -11,6 +11,7 @@
  */
 
 using Freshdesk.Schema;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,14 +64,19 @@ namespace Freshdesk
         /// Creates a new ticket on the helpdesk.
         /// </summary>
         /// <param name="ticket">The ticket to create.</param>
+        /// <param name="attachments">Ticket attachments</param>
         /// <returns>The resultant Ticket object that has been finalized on Freshdesk.</returns>
-        public async Task<Ticket> CreateTicket(Ticket ticket)
+        public async Task<Ticket> CreateTicket(Ticket ticket, IEnumerable<Attachment> attachments = null)
         {
             if (ticket == null)
                 throw new ArgumentNullException("FreshdeskConnection.CreateTicket: Parameter 'ticket' cannot be null.");
 
-            //return (Ticket) await FreshHttpsHelper.DoRequest<Ticket>(FreshHttpsHelper.UriForPath(ConnectionUri, "/api/v2/tickets"), "POST", JsonConvert.SerializeObject(ticket));
-            return null;
+            if (attachments == null)
+                return (Ticket)await FreshHttpsHelper.DoRequest<Ticket>(FreshHttpsHelper.UriForPath(ConnectionUri, "/api/v2/tickets"), "POST", JsonConvert.SerializeObject(ticket));
+            else
+            {
+                return await FreshHttpsHelper.DoMultipartFormRequest<Ticket>(FreshHttpsHelper.UriForPath(ConnectionUri, "/api/v2/tickets"), ticket, attachments, "ticket", "attachments[]");
+            }
         }
 
         /// <summary>

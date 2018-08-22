@@ -50,18 +50,18 @@ namespace Freshdesk
         private static string _AuthorizationKey;
 
         
-        public static T DoMultipartFormRequest<T>(Uri uri, object body, IEnumerable<Attachment> attachments, string propertiesArrayName, string attachmentsKey)
+        public static async Task<T> DoMultipartFormRequest<T>(Uri uri, object body, IEnumerable<Attachment> attachments, string propertiesArrayName, string attachmentsKey)
         {
-            var json = DoMultipartFormRequest(uri, body, attachments, propertiesArrayName, attachmentsKey);
+            var json = await DoMultipartFormRequest(uri, body, attachments, propertiesArrayName, attachmentsKey);
 
             return JsonConvert.DeserializeObject<T>(json);
         }
 
-        public static string DoMultipartFormRequest(Uri uri, object body, IEnumerable<Attachment> attachments, string propertiesArrayName, string attachmentsKey)
+        public static async Task<string> DoMultipartFormRequest(Uri uri, object body, IEnumerable<Attachment> attachments, string propertiesArrayName, string attachmentsKey)
         {
             var boundary = "----------------------------" + DateTime.Now.Ticks.ToString("x");
             var stringsContent = GetStringsContent(body);
-            var webRequest = SetupMultipartRequest(uri);
+            var webRequest = await SetupMultipartRequest(uri);
 
             webRequest.ContentType = "multipart/form-data; boundary=" + boundary;
 
@@ -69,12 +69,16 @@ namespace Freshdesk
             {
                 foreach (var pair in stringsContent)
                 {
+                    if (pair.Value == null)
+                        continue;
+
                     WriteBoundaryBytes(requestStream, boundary, false);
 
-                    if (pair.Key == "cc_emails")
+                    /*if (pair.Key == "cc_emails")
                         WriteContentDispositionFormDataHeader(requestStream, string.Format("{0}[{1}]", "cc_emails", ""));
                     else
-                        WriteContentDispositionFormDataHeader(requestStream, string.Format("{0}[{1}]", propertiesArrayName, pair.Key));
+                        WriteContentDispositionFormDataHeader(requestStream, string.Format("{0}[{1}]", propertiesArrayName, pair.Key));*/
+                    WriteContentDispositionFormDataHeader(requestStream, pair.Key);
 
                     WriteString(requestStream, pair.Value);
                     WriteCrlf(requestStream);
@@ -85,7 +89,7 @@ namespace Freshdesk
                     WriteBoundaryBytes(requestStream, boundary, false);
 
                     WriteContentDispositionFileHeader(requestStream, attachmentsKey,
-                        attachment.FileName, /**MimeMapping.GetMimeMapping(attachment.FileName)*/ String.Empty);
+                        attachment.FileName, /**MimeMapping.GetMimeMapping(attachment.FileName)*/ "text/plain");
 
                     var data = new byte[attachment.Content.Length];
 
@@ -164,7 +168,7 @@ namespace Freshdesk
 
             // T isn't an IList, just create T
             //
-            return Activator.CreateInstance(genericType, json);
+            return Activator.CreateInstance(genericType, json, fdConn);
         }
 
         /// <summary>
@@ -249,7 +253,8 @@ namespace Freshdesk
 
         private static Dictionary<string, string> GetStringsContent(object instance)
         {
-            if (instance == null)
+            return JsonConvert.DeserializeObject<Dictionary<string, string>>(JsonConvert.SerializeObject(instance));
+            /*if (instance == null)
                 throw new ArgumentNullException("FreshHttpHelper.GetStringsContent: Parameter 'instance' cannot be null.");
 
             Type classType = instance.GetType();
@@ -297,10 +302,10 @@ namespace Freshdesk
 
                 properties[propertyName] = propertyValue.ToString();
             }
-            return properties;
+            return properties;*/
         }
 
-        private static WebRequest SetupMultipartRequest(Uri uri)
+        private static async Task<HttpWebRequest> SetupMultipartRequest(Uri uri)
         {
             var webRequest = (HttpWebRequest)WebRequest.Create(uri);
 
@@ -308,7 +313,7 @@ namespace Freshdesk
 
             webRequest.Method = "POST";
             webRequest.KeepAlive = true;
-            webRequest.Headers[HttpRequestHeader.Authorization] = GetAuthorizationHeader().Result;
+            webRequest.Headers[HttpRequestHeader.Authorization] = await GetAuthorizationHeader();
 
             return webRequest;
         }
